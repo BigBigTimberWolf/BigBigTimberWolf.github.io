@@ -107,7 +107,9 @@ $(function () {
   }
 
   function open_sidebar() {
-    $('#page-header').addClass('open-sidebar')
+    // todo 调整header的宽
+    /*$('#page-header').addClass('open-sidebar')*/
+
     $('body').animate({
       paddingLeft: 300
     }, 200)

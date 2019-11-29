@@ -54,6 +54,7 @@ body {
 *::-webkit-scrollbar {
   width: 8px;
   height: 8px;
+  display: none;
 }
 *::-webkit-scrollbar-thumb {
   background-image: -webkit-linear-gradient(#177cb0, #9198e5);
@@ -1994,7 +1995,7 @@ blockquote footer cite:before {
 }
 #aside_content .aside_category_list:hover,
 #aside_content .archive-list-item:hover {
-  background-color: #177cb0;
+/*background-color: $light-blue*/
   color: #363636;
 }
 #aside_content .aside_category_list a,

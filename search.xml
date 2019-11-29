@@ -556,31 +556,6 @@
     
     
     <entry>
-      <title>Linux常用命令记录</title>
-      <link href="/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"/>
-      <url>/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</url>
-      
-        <content type="html"><![CDATA[<p>好记性不如烂笔头，我不知道多少次去查询各种linux命令了，今天起床想要给自己的虚拟机安装docker，结果连 ip addr命令都忘记了（使用windows shell用多了，后遗症QAQ），为了提高效率，不重复做一些意义不大的事情，开篇记录linux常用命令的帖子。</p><a id="more"></a><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看IP</span></span><br><span class="line">ip addr</span><br><span class="line"><span class="meta">#</span><span class="bash">清理当前窗口所有命令</span></span><br><span class="line">clear</span><br><span class="line"><span class="meta">#</span><span class="bash">查看当前内核</span></span><br><span class="line">uname -r</span><br><span class="line"><span class="meta">#</span><span class="bash">vi退出不保存</span></span><br><span class="line">:q!</span><br><span class="line"><span class="meta">#</span><span class="bash">保存</span></span><br><span class="line">:wq</span><br><span class="line"><span class="meta">#</span><span class="bash">添加环境</span></span><br><span class="line">export JAVA_HOME=/usr/jdk1.8.0_181  </span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre    </span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib </span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</span><br><span class="line"><span class="meta">#</span><span class="bash">赋权限</span></span><br><span class="line">chmod 777 文件名</span><br><span class="line"><span class="meta">#</span><span class="bash">移动</span></span><br><span class="line">mv</span><br><span class="line"><span class="meta">#</span><span class="bash">查看硬盘分区，占用率</span></span><br><span class="line">df -f</span><br><span class="line"><span class="meta">#</span><span class="bash">切换root权限</span></span><br><span class="line">chmod su</span><br><span class="line"><span class="meta">#</span><span class="bash">下载文件到指定目录</span></span><br><span class="line">wget -P /保存的文件路径 文件下载地址</span><br><span class="line"><span class="meta">#</span><span class="bash">查看当前位置的完整路径</span></span><br><span class="line">pwd</span><br></pre></td></tr></table></figure><p>待持续更新ing…</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 开发实用教程 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>CentOS固定IP</title>
       <link href="/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/CentOS%E5%9B%BA%E5%AE%9AIP/"/>
       <url>/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/CentOS%E5%9B%BA%E5%AE%9AIP/</url>
@@ -598,6 +573,31 @@
         <tags>
             
             <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux常用命令记录</title>
+      <link href="/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"/>
+      <url>/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<p>好记性不如烂笔头，我不知道多少次去查询各种linux命令了，今天起床想要给自己的虚拟机安装docker，结果连 ip addr命令都忘记了（使用windows shell用多了，后遗症QAQ），为了提高效率，不重复做一些意义不大的事情，开篇记录linux常用命令的帖子。</p><a id="more"></a><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看IP</span></span><br><span class="line">ip addr</span><br><span class="line"><span class="meta">#</span><span class="bash">清理当前窗口所有命令</span></span><br><span class="line">clear</span><br><span class="line"><span class="meta">#</span><span class="bash">查看当前内核</span></span><br><span class="line">uname -r</span><br><span class="line"><span class="meta">#</span><span class="bash">vi退出不保存</span></span><br><span class="line">:q!</span><br><span class="line"><span class="meta">#</span><span class="bash">保存</span></span><br><span class="line">:wq</span><br><span class="line"><span class="meta">#</span><span class="bash">添加环境</span></span><br><span class="line">export JAVA_HOME=/usr/jdk1.8.0_181  </span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre    </span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib </span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</span><br><span class="line"><span class="meta">#</span><span class="bash">赋权限</span></span><br><span class="line">chmod 777 文件名</span><br><span class="line"><span class="meta">#</span><span class="bash">移动</span></span><br><span class="line">mv</span><br><span class="line"><span class="meta">#</span><span class="bash">查看硬盘分区，占用率</span></span><br><span class="line">df -f</span><br><span class="line"><span class="meta">#</span><span class="bash">切换root权限</span></span><br><span class="line">chmod su</span><br><span class="line"><span class="meta">#</span><span class="bash">下载文件到指定目录</span></span><br><span class="line">wget -P /保存的文件路径 文件下载地址</span><br><span class="line"><span class="meta">#</span><span class="bash">查看当前位置的完整路径</span></span><br><span class="line">pwd</span><br></pre></td></tr></table></figure><p>待持续更新ing…</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 开发实用教程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
             
         </tags>
       
