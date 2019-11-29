@@ -556,31 +556,6 @@
     
     
     <entry>
-      <title>CentOS固定IP</title>
-      <link href="/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/CentOS%E5%9B%BA%E5%AE%9AIP/"/>
-      <url>/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/CentOS%E5%9B%BA%E5%AE%9AIP/</url>
-      
-        <content type="html"><![CDATA[<pre><code>目前我的学习开发的电脑的硬盘是120GB的SSD+1TB的5200转机械，使用的操作系统是windows10，win10某种意义上来讲，并不适合开发，因为win比较吃性能，以及cmd不太友好的指令（还是习惯linux），最最重要的是我部署了很多环境，而这些环境不是每次都需要用到的，服务又懒得关，会占用很多性能，所以就决定把常用的服务都迁移到vm中，mysql，redis之流就好好的在虚拟机中待着吧（docker特别方便）</code></pre><p>为了方便管理这些服务，或者说这些虚拟机，我将这些虚拟机的IP全部都固定了，不用每次启动一个centos都要敲一次ip addr了,下面就详细记录一下我固定IP的过程。</p><a id="more"></a><h2 id="第一步：选择Centos："><a href="#第一步：选择Centos：" class="headerlink" title="第一步：选择Centos："></a>第一步：选择Centos：</h2><pre><code>centos有很多很多的版本，选择一个最合适的无疑非常重要，能为我避免很多不必要的麻烦，比如centos很多版本都比较大，下载需要一定的时间，而且我不需要desktop，那就用[mini版本](http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso)吧</code></pre><h2 id="第二步：安装VM："><a href="#第二步：安装VM：" class="headerlink" title="第二步：安装VM："></a>第二步：安装VM：</h2><p>VM自然是越新越好，安装期间并没有什么需要注意的 链接：<a href="https://pan.baidu.com/s/1Z-FsRmF1qqFDQf0h-u8L-Q" target="_blank" rel="noopener">https://pan.baidu.com/s/1Z-FsRmF1qqFDQf0h-u8L-Q</a> 密码：h6sf</p><h2 id="第三步：安装CentOS："><a href="#第三步：安装CentOS：" class="headerlink" title="第三步：安装CentOS："></a>第三步：安装CentOS：</h2><pre><code>主页-&gt;创建新的虚拟机-&gt;典型(推荐)(T)-&gt;下一步-&gt;安装程序光盘映像文件(iso）(M)-&gt;浏览-&gt;找到你下载的centos-&gt;最下面 打开-&gt;下一步-&gt;虚拟机名称改成你想要固定的IP-&gt;下一步-&gt;下一步-&gt;自定义硬件-&gt;网络适配器-&gt;自定义(U):特定虚拟网络 选择VMnet8(NAT模式)-&gt;关闭-&gt;完成</code></pre><p>接下来就会开始执行安装,一直下一步，语言设置中文，设置好root密码,这个时候开始做第四步的操作</p><h2 id="第四步：设置VMnet8："><a href="#第四步：设置VMnet8：" class="headerlink" title="第四步：设置VMnet8："></a>第四步：设置VMnet8：</h2><pre><code>VM上面的工具栏 编辑-&gt;虚拟网络编辑器(N)-&gt;更改设置(C)     可能会弹出赋予权限的弹窗，务必要点击确认-&gt;这个时候会重新加载 虚拟网络编辑器，你会发现上面了一条VMnet8   NAT模式    已连接    的一条信息  选择这一条-&gt;点击NAT设置，记好子网IP，子网掩码，网关IP-&gt;点击DHCP设置(P)-&gt;起始IP最后一位设置为0(例如我设置的192168.100.0)-&gt;确认-&gt;确认</code></pre><h2 id="第五步：开始设置Centos："><a href="#第五步：开始设置Centos：" class="headerlink" title="第五步：开始设置Centos："></a>第五步：开始设置Centos：</h2><pre><code>我装的mini版本的centos，刚装完系统是没有办法直接用shell工具访问到的，所以慢慢敲命令吧:)，进入系统，输入root 最好用root，别的账户可能会有权限问题-&gt;回车-&gt;输入root的密码（输入密码的时候不会有提示，但是你确实是输入上了）-&gt;cd /etc/sysconfig/network-scripts-&gt;输入 ll -&gt;看一下是否有一个ifcfg-ens33的文件，如果没有你的上一条指令输错了-&gt;vi ifcfg-ens33-&gt;按insert(键盘上的按键，程序员常用)-&gt;下面列出需要修改的内容:</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure><pre><code>下面列出需要在后面追加的内容：</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#ip想上网设置为NAT网段新增</span><br><span class="line">#静态IP(你想设置的IP)</span><br><span class="line">IPADDR=192.168.100.0</span><br><span class="line">#设置的网关</span><br><span class="line">GATEWAY=192.168.100.2</span><br><span class="line">#子网掩码</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">#设置DNS 任意选择(DNS后面一定要加上数字)</span><br><span class="line">DNS1=8.8.8.8</span><br></pre></td></tr></table></figure><pre><code>-&gt;保存(ESC-&gt;:wq-&gt;回车)-&gt;重启网络服务:service network restart-&gt;ping www.baidu.com 如果能ping通证明就OK了，固定IP就是上面输入的 IPADDR-&gt;如果没有ping通,重启一下虚拟机再ping一下,重启后还ping不通，检查ifcfg-ens33是否配置正确</code></pre><h1 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">遇到任何问题，可以重新详细阅读教程</span><br><span class="line">遇到任何问题，可以在下方给我留言</span><br><span class="line">遇到任何问题，可以给我发送邮件</span><br><span class="line">遇到任何问题，可以加Q群问我</span><br><span class="line"></span><br><span class="line">群号：826953936</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> 开发实用教程 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Linux常用命令记录</title>
       <link href="/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/"/>
       <url>/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95/</url>
@@ -604,14 +579,39 @@
     </entry>
     
     
+    
+    <entry>
+      <title>CentOS固定IP</title>
+      <link href="/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/CentOS%E5%9B%BA%E5%AE%9AIP/"/>
+      <url>/2018/09/22/%E5%BC%80%E5%8F%91%E5%AE%9E%E7%94%A8%E6%95%99%E7%A8%8B/CentOS%E5%9B%BA%E5%AE%9AIP/</url>
+      
+        <content type="html"><![CDATA[<pre><code>目前我的学习开发的电脑的硬盘是120GB的SSD+1TB的5200转机械，使用的操作系统是windows10，win10某种意义上来讲，并不适合开发，因为win比较吃性能，以及cmd不太友好的指令（还是习惯linux），最最重要的是我部署了很多环境，而这些环境不是每次都需要用到的，服务又懒得关，会占用很多性能，所以就决定把常用的服务都迁移到vm中，mysql，redis之流就好好的在虚拟机中待着吧（docker特别方便）</code></pre><p>为了方便管理这些服务，或者说这些虚拟机，我将这些虚拟机的IP全部都固定了，不用每次启动一个centos都要敲一次ip addr了,下面就详细记录一下我固定IP的过程。</p><a id="more"></a><h2 id="第一步：选择Centos："><a href="#第一步：选择Centos：" class="headerlink" title="第一步：选择Centos："></a>第一步：选择Centos：</h2><pre><code>centos有很多很多的版本，选择一个最合适的无疑非常重要，能为我避免很多不必要的麻烦，比如centos很多版本都比较大，下载需要一定的时间，而且我不需要desktop，那就用[mini版本](http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso)吧</code></pre><h2 id="第二步：安装VM："><a href="#第二步：安装VM：" class="headerlink" title="第二步：安装VM："></a>第二步：安装VM：</h2><p>VM自然是越新越好，安装期间并没有什么需要注意的 链接：<a href="https://pan.baidu.com/s/1Z-FsRmF1qqFDQf0h-u8L-Q" target="_blank" rel="noopener">https://pan.baidu.com/s/1Z-FsRmF1qqFDQf0h-u8L-Q</a> 密码：h6sf</p><h2 id="第三步：安装CentOS："><a href="#第三步：安装CentOS：" class="headerlink" title="第三步：安装CentOS："></a>第三步：安装CentOS：</h2><pre><code>主页-&gt;创建新的虚拟机-&gt;典型(推荐)(T)-&gt;下一步-&gt;安装程序光盘映像文件(iso）(M)-&gt;浏览-&gt;找到你下载的centos-&gt;最下面 打开-&gt;下一步-&gt;虚拟机名称改成你想要固定的IP-&gt;下一步-&gt;下一步-&gt;自定义硬件-&gt;网络适配器-&gt;自定义(U):特定虚拟网络 选择VMnet8(NAT模式)-&gt;关闭-&gt;完成</code></pre><p>接下来就会开始执行安装,一直下一步，语言设置中文，设置好root密码,这个时候开始做第四步的操作</p><h2 id="第四步：设置VMnet8："><a href="#第四步：设置VMnet8：" class="headerlink" title="第四步：设置VMnet8："></a>第四步：设置VMnet8：</h2><pre><code>VM上面的工具栏 编辑-&gt;虚拟网络编辑器(N)-&gt;更改设置(C)     可能会弹出赋予权限的弹窗，务必要点击确认-&gt;这个时候会重新加载 虚拟网络编辑器，你会发现上面了一条VMnet8   NAT模式    已连接    的一条信息  选择这一条-&gt;点击NAT设置，记好子网IP，子网掩码，网关IP-&gt;点击DHCP设置(P)-&gt;起始IP最后一位设置为0(例如我设置的192168.100.0)-&gt;确认-&gt;确认</code></pre><h2 id="第五步：开始设置Centos："><a href="#第五步：开始设置Centos：" class="headerlink" title="第五步：开始设置Centos："></a>第五步：开始设置Centos：</h2><pre><code>我装的mini版本的centos，刚装完系统是没有办法直接用shell工具访问到的，所以慢慢敲命令吧:)，进入系统，输入root 最好用root，别的账户可能会有权限问题-&gt;回车-&gt;输入root的密码（输入密码的时候不会有提示，但是你确实是输入上了）-&gt;cd /etc/sysconfig/network-scripts-&gt;输入 ll -&gt;看一下是否有一个ifcfg-ens33的文件，如果没有你的上一条指令输错了-&gt;vi ifcfg-ens33-&gt;按insert(键盘上的按键，程序员常用)-&gt;下面列出需要修改的内容:</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BOOTPROTO=static</span><br><span class="line">ONBOOT=yes</span><br></pre></td></tr></table></figure><pre><code>下面列出需要在后面追加的内容：</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#ip想上网设置为NAT网段新增</span><br><span class="line">#静态IP(你想设置的IP)</span><br><span class="line">IPADDR=192.168.100.0</span><br><span class="line">#设置的网关</span><br><span class="line">GATEWAY=192.168.100.2</span><br><span class="line">#子网掩码</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">#设置DNS 任意选择(DNS后面一定要加上数字)</span><br><span class="line">DNS1=8.8.8.8</span><br></pre></td></tr></table></figure><pre><code>-&gt;保存(ESC-&gt;:wq-&gt;回车)-&gt;重启网络服务:service network restart-&gt;ping www.baidu.com 如果能ping通证明就OK了，固定IP就是上面输入的 IPADDR-&gt;如果没有ping通,重启一下虚拟机再ping一下,重启后还ping不通，检查ifcfg-ens33是否配置正确</code></pre><h1 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">遇到任何问题，可以重新详细阅读教程</span><br><span class="line">遇到任何问题，可以在下方给我留言</span><br><span class="line">遇到任何问题，可以给我发送邮件</span><br><span class="line">遇到任何问题，可以加Q群问我</span><br><span class="line"></span><br><span class="line">群号：826953936</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 开发实用教程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -620,9 +620,9 @@
     
     
     <entry>
-      <title>链接</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
